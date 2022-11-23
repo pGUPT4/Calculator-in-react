@@ -22,30 +22,56 @@ export default class App extends Component{
     constructor(){
         super()
         this.state = {
-            calculationText: "",
+            calculationText: getText,
             resultText: 0 
         }
     }
+
+    value(){
+        
+        getTextString = getText.toString
+        setResult = eval(getTextString)
+        this.setState({
+            resultText: setResult
+        })
+
+    }
+
+    //validate(){}
     
     buttonPressed(text){
         switch(text){
-        case '=':
-            getTextString = getText.toString
-            setResult = eval(getTextString)
-            this.setState({
-                calculationText: getText,
-                resultText: setResult
-            })
-            break
-        case 'AC':
-            getText = []
-            break
-        case 'CE':
-            getText.pop()
-            break 
-        default:
-            getText.push(text)
-            break 
+            case '=':
+                return this.value()
+            case 'AC':
+                getText = []
+                break
+            case 'CE':
+                getText.pop()
+                break 
+            case '+':
+            case '-': 
+            case '*':
+            case '/':
+                
+
+                // check if we are not printing two operations continuously
+                if(this.state.calculationText[this.state.calculationText.length - 1] == '+'||
+                this.state.calculationText[this.state.calculationText.length - 1] == '-'||
+                this.state.calculationText[this.state.calculationText.length - 1] == '*'||
+                this.state.calculationText[this.state.calculationText.length - 1] == '/') return 
+
+                // if calc text is empty then print no operators
+                if(this.state.calculationText == "") return
+
+                this.setState({
+                    calculationText: getText.push(text)
+                })
+
+                break 
+            default:
+                getText.push(text)
+                break
         }
 
         this.setState({
