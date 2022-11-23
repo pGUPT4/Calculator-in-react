@@ -23,26 +23,34 @@ export default class App extends Component{
         super()
         this.state = {
             calculationText: getText,
-            resultText: 0 
+            resultText: setResult
         }
     }
 
-    value(){
-        
-        getTextString = getText.toString
-        setResult = eval(getTextString)
-        this.setState({
-            resultText: setResult
-        })
+    validate(){
+        if(this.state.calculationText[this.state.calculationText.length - 1] == '+'||
+            this.state.calculationText[this.state.calculationText.length - 1] == '-'||
+            this.state.calculationText[this.state.calculationText.length - 1] == '*'||
+            this.state.calculationText[this.state.calculationText.length - 1] == '/'){
+                return false
+            }
+        return true
 
     }
-
-    //validate(){}
     
     buttonPressed(text){
         switch(text){
             case '=':
-                return this.value()
+
+                if (this.validate() == true){
+                    getTextString = getText.join('')
+                    setResult = eval(getTextString)
+                }
+
+                this.setState({
+                    resultText: setResult
+                })
+                break
             case 'AC':
                 getText = []
                 break
@@ -53,7 +61,7 @@ export default class App extends Component{
             case '-': 
             case '*':
             case '/':
-                
+
 
                 // check if we are not printing two operations continuously
                 if(this.state.calculationText[this.state.calculationText.length - 1] == '+'||
@@ -64,10 +72,7 @@ export default class App extends Component{
                 // if calc text is empty then print no operators
                 if(this.state.calculationText == "") return
 
-                this.setState({
-                    calculationText: getText.push(text)
-                })
-
+                getText.push(text)
                 break 
             default:
                 getText.push(text)
